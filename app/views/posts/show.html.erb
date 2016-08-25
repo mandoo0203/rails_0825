@@ -1,4 +1,37 @@
+<%=link_to 'main', posts_path %>
+
+
 <h1><%=@post.title%></h1>
 <div>
   <%=@post.content%>
+</div>
+
+<h1>new Comment</h1>
+<%=form_for :comment, url: post_comments_path(post_id: @post.id) do |f| %>
+  <div>
+    <%= f.label :commenter %><br>
+    <%= f.text_field :commenter %>
+  </div>
+  <div>
+    <%= f.label :content %><br>
+    <%= f.text_area :content %>
+  </div>
+    <%= f.submit %>
+<% end %>
+
+
+
+
+<div>
+  <% if @post.comments.any? %>
+    <ul>
+      <% @post.comments.each do |comment| %>
+        <li><%=comment.commenter %> says.. <%=comment.content %>
+          <%= link_to 'delete', post_comment_path(post_id: @post.id, id: comment.id), method: :delete %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    댓글이 없습니다.
+  <% end %>
 </div>
